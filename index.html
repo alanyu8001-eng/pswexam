@@ -9020,12 +9020,13 @@ const db = {
   ]
 }
 
-    let qs = [];
+let qs = [];
 let cur = 0;
 let score = 0;
 let modeTitle = "";
 let currentMode = null;
 let answered = false;
+const PASS_PERCENT = 65;
 
 function showSection(id) {
     document.getElementById('menu').classList.add('hidden');
@@ -9088,13 +9089,16 @@ function selectAnswer(i, answerIndex, box, btn) {
     document.getElementById('nbtn').classList.remove('hidden');
 }
 
-window.next = function() {
+window.next = function () {
+    if (!answered) return;
+
     cur++;
-    if (cur < qs.length) {
-        show();
-    } else {
-        finishExam();
+    if (cur >= qs.length) {          // 做完所有題
+        finishExam();               // 一定要係呢個名
+        return;
     }
+    answered = false;
+    show();                          // 繼續下一題
 };
 
 function finishExam() {
